@@ -184,6 +184,7 @@ def load_all_models():
     return {
         "diabetes": pickle.load(open(os.path.join(base_path, "diabetes_model.sav"), "rb")),
         "heart_disease": pickle.load(open(os.path.join(base_path, "heart_disease_model.sav"), "rb")),
+        "heart_scaler": pickle.load(open(os.path.join(base_path, "scaler.sav"), "rb")),
         "parkinsons": pickle.load(open(os.path.join(base_path, "parkinsons_model.sav"), "rb")),
         "lung_cancer": pickle.load(open(os.path.join(base_path, "lungs_disease_model.sav"), "rb")),
         "thyroid": pickle.load(open(os.path.join(base_path, "thyroid_model.sav"), "rb")),
@@ -196,21 +197,37 @@ def display_result(is_disease, positive_text, negative_text):
     if is_disease:
         st.markdown(f"""
             <div class="result-danger">
-                <div style="font-size: 1.25rem; font-weight: 600; margin-bottom: 8px;">⚠️ Disease Detected</div>
+                <div style="font-size: 1.25rem; font-weight: 600; margin-bottom: 8px;">
+                    ⚠️ Higher-Risk Pattern Flagged
+                </div>
                 <div style="font-size: 1rem;">{positive_text}</div>
                 <hr style="border-color: rgba(239,68,68,0.2); margin: 15px 0;">
-                <div style="font-size: 0.9rem;"><strong>Recommendation:</strong> Please consult a healthcare professional immediately for further clinical evaluation.</div>
+                <div style="font-size: 0.9rem;">
+                    <strong>Recommendation:</strong>
+                    Consult a qualified healthcare professional for further evaluation.
+                </div>
             </div>
         """, unsafe_allow_html=True)
     else:
         st.markdown(f"""
             <div class="result-success">
-                <div style="font-size: 1.25rem; font-weight: 600; margin-bottom: 8px;">✅ Normal Result</div>
+                <div style="font-size: 1.25rem; font-weight: 600; margin-bottom: 8px;">
+                    ✅ No Concerning Pattern Flagged
+                </div>
                 <div style="font-size: 1rem;">{negative_text}</div>
                 <hr style="border-color: rgba(16,185,129,0.2); margin: 15px 0;">
-                <div style="font-size: 0.9rem;"><strong>Recommendation:</strong> Maintain your current healthy lifestyle and continue routine medical check-ups.</div>
+                <div style="font-size: 0.9rem;">
+                    <strong>Recommendation:</strong>
+                    Continue routine healthcare check-ups as appropriate.
+                </div>
             </div>
         """, unsafe_allow_html=True)
+
+    st.info(
+        "This tool provides preliminary model-based screening support only. "
+        "It is not a clinical diagnosis and should not replace professional medical advice."
+    )
+
 
 # ==========================================
 # 4. Routing Logic
@@ -304,26 +321,38 @@ elif st.session_state.current_page == 'Diabetes':
     with st.form("diabetes_form"):
         col1, col2 = st.columns(2)
         with col1:
-            Pregnancies = st.number_input('Number of Pregnancies', value=0, step=1, key="d_preg")
-            BloodPressure = st.number_input('Blood Pressure (mmHg)', value=70, step=1, key="d_bp")
-            Insulin = st.number_input('Insulin Level (IU/mL)', value=80, step=1, key="d_ins")
-            DiabetesPedigreeFunction = st.number_input('Diabetes Pedigree Function', value=0.5, format="%f", key="d_dpf")
+            Pregnancies = st.number_input('Number of Pregnancies', value=None, step=1, key="d_preg")
+            BloodPressure = st.number_input('Blood Pressure (mmHg)', value=None, step=1, key="d_bp")
+            Insulin = st.number_input('Insulin Level (IU/mL)', value=None, step=1, key="d_ins")
+            DiabetesPedigreeFunction = st.number_input('Diabetes Pedigree Function', value=None, format="%f", key="d_dpf")
         with col2:
-            Glucose = st.number_input('Glucose Level (mg/dL)', value=120, step=1, key="d_gluc")
-            SkinThickness = st.number_input('Skin Thickness (mm)', value=20, step=1, key="d_skin")
-            BMI = st.number_input('BMI Value', value=25.0, format="%f", key="d_bmi")
-            Age = st.number_input('Age', value=30, step=1, key="d_age")
+            Glucose = st.number_input('Glucose Level (mg/dL)', value=None, step=1, key="d_gluc")
+            SkinThickness = st.number_input('Skin Thickness (mm)', value=None, step=1, key="d_skin")
+            BMI = st.number_input('BMI Value', value=None, format="%f", key="d_bmi")
+            Age = st.number_input('Age', value=None, step=1, key="d_age")
         
         st.markdown("<br>", unsafe_allow_html=True)
         submitted = st.form_submit_button('Predict Diabetes Risk', type="primary", use_container_width=True)
         
     if submitted:
-        input_data = pd.DataFrame(
-            [[Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age]],
-            columns=['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
-        )
-        prediction = models['diabetes'].predict(input_data)
-        display_result(prediction[0] == 1, "The model indicates that this patient is Diabetic.", "The model indicates that this patient is Not Diabetic.")
+        diabetes_values = [
+            Pregnancies, Glucose, BloodPressure, SkinThickness,
+            Insulin, BMI, DiabetesPedigreeFunction, Age
+        ]
+
+        if any(value is None for value in diabetes_values):
+            st.warning("Please complete all fields before making a prediction.")
+        else:
+            input_data = pd.DataFrame(
+                [diabetes_values],
+                columns=['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
+            )
+            prediction = models['diabetes'].predict(input_data)
+            display_result(
+                prediction[0] == 1,
+                "The model indicates a higher-risk pattern for diabetes.",
+                "The model did not identify a concerning pattern for diabetes."
+            )
 
 # ------------------------------------------
 # HEART DISEASE PAGE
@@ -341,31 +370,44 @@ elif st.session_state.current_page == 'Heart Disease':
     with st.form("heart_form"):
         col1, col2 = st.columns(2)
         with col1:
-            age = st.number_input('Age', value=50, step=1, key="h_age")
-            cp = st.selectbox('Chest Pain Type (0-3)', options=[0, 1, 2, 3], key="h_cp")
-            chol = st.number_input('Serum Cholesterol (mg/dl)', value=200, step=1, key="h_chol")
-            restecg = st.selectbox('Resting ECG Results (0-2)', options=[0, 1, 2], key="h_restecg")
-            exang = st.selectbox('Exercise Induced Angina', options=[1, 0], format_func=lambda x: "Yes (1)" if x == 1 else "No (0)", key="h_exang")
-            slope = st.selectbox('Slope of Peak Exercise ST Segment', options=[0, 1, 2], key="h_slope")
-            thal = st.selectbox('Thal', options=[0, 1, 2, 3], key="h_thal")
+            age = st.number_input('Age', value=None, step=1, key="h_age")
+            cp = st.selectbox('Chest Pain Type (0-3)', options=[0, 1, 2, 3], index=None, key="h_cp")
+            chol = st.number_input('Serum Cholesterol (mg/dl)', value=None, step=1, key="h_chol")
+            restecg = st.selectbox('Resting ECG Results (0-2)', options=[0, 1, 2], index=None, key="h_restecg")
+            exang = st.selectbox('Exercise Induced Angina', options=[1, 0], format_func=lambda x: "Yes (1)" if x == 1 else "No (0)", index=None, key="h_exang")
+            slope = st.selectbox('Slope of Peak Exercise ST Segment', options=[0, 1, 2], index=None, key="h_slope")
+            thal = st.selectbox('Thal', options=[0, 1, 2, 3], index=None, key="h_thal")
         with col2:
-            sex = st.selectbox('Sex', options=[1, 0], format_func=lambda x: "Male (1)" if x == 1 else "Female (0)", key="h_sex")
-            trestbps = st.number_input('Resting Blood Pressure (mmHg)', value=120, step=1, key="h_trestbps")
-            fbs = st.selectbox('Fasting Blood Sugar > 120 mg/dl', options=[1, 0], format_func=lambda x: "True (1)" if x == 1 else "False (0)", key="h_fbs")
-            thalach = st.number_input('Maximum Heart Rate Achieved', value=150, step=1, key="h_thalach")
-            oldpeak = st.number_input('ST Depression Induced by Exercise', value=1.0, format="%f", key="h_oldpeak")
-            ca = st.selectbox('Major Vessels Colored by Fluoroscopy (0-3)', options=[0, 1, 2, 3], key="h_ca")
+            sex = st.selectbox('Sex', options=[1, 0], format_func=lambda x: "Male (1)" if x == 1 else "Female (0)", index=None, key="h_sex")
+            trestbps = st.number_input('Resting Blood Pressure (mmHg)', value=None, step=1, key="h_trestbps")
+            fbs = st.selectbox('Fasting Blood Sugar > 120 mg/dl', options=[1, 0], format_func=lambda x: "True (1)" if x == 1 else "False (0)", index=None, key="h_fbs")
+            thalach = st.number_input('Maximum Heart Rate Achieved', value=None, step=1, key="h_thalach")
+            oldpeak = st.number_input('ST Depression Induced by Exercise', value=None, format="%f", key="h_oldpeak")
+            ca = st.selectbox('Major Vessels Colored by Fluoroscopy (0-3)', options=[0, 1, 2, 3], index=None, key="h_ca")
 
         st.markdown("<br>", unsafe_allow_html=True)
         submitted = st.form_submit_button('Predict Heart Disease Risk', type="primary", use_container_width=True)
         
     if submitted:
-        input_data = pd.DataFrame(
-            [[age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]],
-            columns=['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal']
-        )
-        prediction = models['heart_disease'].predict(input_data)
-        display_result(prediction[0] == 1, "The model indicates the presence of Heart Disease.", "The model indicates no presence of Heart Disease.")
+        heart_values = [
+            age, sex, cp, trestbps, chol, fbs, restecg,
+            thalach, exang, oldpeak, slope, ca, thal
+        ]
+
+        if any(value is None for value in heart_values):
+            st.warning("Please complete all fields before making a prediction.")
+        else:
+            input_data = pd.DataFrame(
+                [heart_values],
+                columns=['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal']
+            )
+            scaled_input = models['heart_scaler'].transform(input_data)
+            prediction = models['heart_disease'].predict(scaled_input)
+            display_result(
+                prediction[0] == 1,
+                "The model indicates a higher-risk pattern for heart disease.",
+                "The model did not identify a concerning pattern for heart disease."
+            )
 
 # ------------------------------------------
 # PARKINSON'S PAGE
