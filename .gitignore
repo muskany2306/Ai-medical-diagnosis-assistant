@@ -3,3 +3,7 @@ __pycache__/
 *.py[cod]
 .streamlit/secrets.toml
 .env
+
+# Local project backups and distribution archives
+*.zip
+app.py.before-*
