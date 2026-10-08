@@ -414,7 +414,7 @@ elif st.session_state.current_page == 'Heart Disease':
 # ------------------------------------------
 elif st.session_state.current_page == "Parkinson's":
     st.button("← Back to Home", on_click=navigate, args=('Home',))
-    
+
     st.markdown("""
         <div class="page-title-box">
             <h2>🧠 Parkinson's Disease Prediction</h2>
@@ -424,43 +424,244 @@ elif st.session_state.current_page == "Parkinson's":
 
     with st.form("parkinsons_form"):
         col1, col2 = st.columns(2)
+
         with col1:
-            fo = st.number_input('MDVP:Fo(Hz)', value=119.99, format="%f", key="p_fo")
-            flo = st.number_input('MDVP:Flo(Hz)', value=74.99, format="%f", key="p_flo")
-            Jitter_Abs = st.number_input('MDVP:Jitter(Abs)', value=0.00007, format="%f", key="p_jit_abs")
-            PPQ = st.number_input('MDVP:PPQ', value=0.00554, format="%f", key="p_ppq")
-            Shimmer = st.number_input('MDVP:Shimmer', value=0.04374, format="%f", key="p_shimmer")
-            APQ3 = st.number_input('Shimmer:APQ3', value=0.02182, format="%f", key="p_apq3")
-            APQ = st.number_input('MDVP:APQ', value=0.02971, format="%f", key="p_apq")
-            NHR = st.number_input('NHR', value=0.02211, format="%f", key="p_nhr")
-            RPDE = st.number_input('RPDE', value=0.41478, format="%f", key="p_rpde")
-            spread1 = st.number_input('Spread1', value=-4.81303, format="%f", key="p_spread1")
-            D2 = st.number_input('D2', value=2.30144, format="%f", key="p_d2")
+            fo = st.number_input(
+                'MDVP:Fo(Hz)',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_fo"
+            )
+
+            flo = st.number_input(
+                'MDVP:Flo(Hz)',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_flo"
+            )
+
+            Jitter_Abs = st.number_input(
+                'MDVP:Jitter(Abs)',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_jit_abs"
+            )
+
+            PPQ = st.number_input(
+                'MDVP:PPQ',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_ppq"
+            )
+
+            Shimmer = st.number_input(
+                'MDVP:Shimmer',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_shimmer"
+            )
+
+            APQ3 = st.number_input(
+                'Shimmer:APQ3',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_apq3"
+            )
+
+            APQ = st.number_input(
+                'MDVP:APQ',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_apq"
+            )
+
+            NHR = st.number_input(
+                'NHR',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_nhr"
+            )
+
+            RPDE = st.number_input(
+                'RPDE',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_rpde"
+            )
+
+            spread1 = st.number_input(
+                'Spread1',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_spread1"
+            )
+
+            D2 = st.number_input(
+                'D2',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_d2"
+            )
+
         with col2:
-            fhi = st.number_input('MDVP:Fhi(Hz)', value=157.30, format="%f", key="p_fhi")
-            Jitter_percent = st.number_input('MDVP:Jitter(%)', value=0.00784, format="%f", key="p_jit_per")
-            RAP = st.number_input('MDVP:RAP', value=0.0037, format="%f", key="p_rap")
-            DDP = st.number_input('Jitter:DDP', value=0.01109, format="%f", key="p_ddp")
-            Shimmer_dB = st.number_input('MDVP:Shimmer(dB)', value=0.426, format="%f", key="p_shimdb")
-            APQ5 = st.number_input('Shimmer:APQ5', value=0.03130, format="%f", key="p_apq5")
-            DDA = st.number_input('Shimmer:DDA', value=0.06545, format="%f", key="p_dda")
-            HNR = st.number_input('HNR', value=21.033, format="%f", key="p_hnr")
-            DFA = st.number_input('DFA', value=0.81528, format="%f", key="p_dfa")
-            spread2 = st.number_input('Spread2', value=0.26648, format="%f", key="p_spread2")
-            PPE = st.number_input('PPE', value=0.28465, format="%f", key="p_ppe")
+            fhi = st.number_input(
+                'MDVP:Fhi(Hz)',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_fhi"
+            )
+
+            Jitter_percent = st.number_input(
+                'MDVP:Jitter(%)',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_jit_per"
+            )
+
+            RAP = st.number_input(
+                'MDVP:RAP',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_rap"
+            )
+
+            DDP = st.number_input(
+                'Jitter:DDP',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_ddp"
+            )
+
+            Shimmer_dB = st.number_input(
+                'MDVP:Shimmer(dB)',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_shimdb"
+            )
+
+            APQ5 = st.number_input(
+                'Shimmer:APQ5',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_apq5"
+            )
+
+            DDA = st.number_input(
+                'Shimmer:DDA',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_dda"
+            )
+
+            HNR = st.number_input(
+                'HNR',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_hnr"
+            )
+
+            DFA = st.number_input(
+                'DFA',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_dfa"
+            )
+
+            spread2 = st.number_input(
+                'Spread2',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_spread2"
+            )
+
+            PPE = st.number_input(
+                'PPE',
+                value=None,
+                placeholder='Enter value',
+                format="%f",
+                key="p_ppe"
+            )
 
         st.markdown("<br>", unsafe_allow_html=True)
-        submitted = st.form_submit_button("Predict Parkinson's Risk", type="primary", use_container_width=True)
-        
-    if submitted:
-        input_data = pd.DataFrame(
-            [[fo, fhi, flo, Jitter_percent, Jitter_Abs, RAP, PPQ, DDP, Shimmer, Shimmer_dB, APQ3, APQ5, APQ, DDA, NHR, HNR, RPDE, DFA, spread1, spread2, D2, PPE]],
-            columns=['fo', 'fhi', 'flo', 'Jitter_percent', 'Jitter_Abs', 'RAP', 'PPQ', 'DDP', 'Shimmer', 'Shimmer_dB', 'APQ3', 'APQ5', 'APQ', 'DDA', 'NHR', 'HNR', 'RPDE', 'DFA', 'spread1', 'spread2', 'D2', 'PPE']
-        )
-        prediction = models['parkinsons'].predict(input_data)
-        display_result(prediction[0] == 1, "The model indicates the presence of Parkinson's disease.", "The model indicates no presence of Parkinson's disease.")
 
-# ------------------------------------------
+        submitted = st.form_submit_button(
+            "Predict Parkinson's Risk",
+            type="primary",
+            use_container_width=True
+        )
+
+    if submitted:
+        values = {
+            "MDVP:Fo(Hz)": fo,
+            "MDVP:Fhi(Hz)": fhi,
+            "MDVP:Flo(Hz)": flo,
+            "MDVP:Jitter(%)": Jitter_percent,
+            "MDVP:Jitter(Abs)": Jitter_Abs,
+            "MDVP:RAP": RAP,
+            "MDVP:PPQ": PPQ,
+            "Jitter:DDP": DDP,
+            "MDVP:Shimmer": Shimmer,
+            "MDVP:Shimmer(dB)": Shimmer_dB,
+            "Shimmer:APQ3": APQ3,
+            "Shimmer:APQ5": APQ5,
+            "MDVP:APQ": APQ,
+            "Shimmer:DDA": DDA,
+            "NHR": NHR,
+            "HNR": HNR,
+            "RPDE": RPDE,
+            "DFA": DFA,
+            "Spread1": spread1,
+            "Spread2": spread2,
+            "D2": D2,
+            "PPE": PPE,
+        }
+
+        if validate_required_inputs(values):
+            input_data = pd.DataFrame(
+                [[
+                    fo, fhi, flo, Jitter_percent, Jitter_Abs,
+                    RAP, PPQ, DDP, Shimmer, Shimmer_dB,
+                    APQ3, APQ5, APQ, DDA, NHR, HNR,
+                    RPDE, DFA, spread1, spread2, D2, PPE
+                ]],
+                columns=[
+                    'fo', 'fhi', 'flo', 'Jitter_percent',
+                    'Jitter_Abs', 'RAP', 'PPQ', 'DDP',
+                    'Shimmer', 'Shimmer_dB', 'APQ3', 'APQ5',
+                    'APQ', 'DDA', 'NHR', 'HNR', 'RPDE',
+                    'DFA', 'spread1', 'spread2', 'D2', 'PPE'
+                ]
+            )
+
+            prediction = models['parkinsons'].predict(input_data)
+
+            display_result(
+                prediction[0] == 1,
+                "The model indicates the presence of Parkinson's disease.",
+                "The model indicates no presence of Parkinson's disease."
+            )
+
 # LUNG CANCER PAGE
 # ------------------------------------------
 elif st.session_state.current_page == "Lung Cancer":
@@ -477,43 +678,177 @@ elif st.session_state.current_page == "Lung Cancer":
     yn = lambda x: "Yes (1)" if x == 1 else "No (0)"
 
     with st.form("lung_form"):
-
         col1, col2 = st.columns(2)
 
         with col1:
+            GENDER = st.selectbox(
+                "Gender",
+                [None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else "Male"
+                    if x == 1
+                    else "Female"
+                ),
+                key="lung_gender"
+            )
 
-            GENDER = st.selectbox("Gender", [1,0],
-                                  format_func=lambda x: "Male" if x==1 else "Female")
+            SMOKING = st.selectbox(
+                "Smoking",
+                [None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else yn(x)
+                ),
+                key="lung_smoking"
+            )
 
-            SMOKING = st.selectbox("Smoking",[1,0],format_func=yn)
+            ANXIETY = st.selectbox(
+                "Anxiety",
+                [None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else yn(x)
+                ),
+                key="lung_anxiety"
+            )
 
-            ANXIETY = st.selectbox("Anxiety",[1,0],format_func=yn)
+            CHRONIC_DISEASE = st.selectbox(
+                "Chronic Disease",
+                [None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else yn(x)
+                ),
+                key="lung_chronic"
+            )
 
-            CHRONIC_DISEASE = st.selectbox("Chronic Disease",[1,0],format_func=yn)
+            ALLERGY = st.selectbox(
+                "Allergy",
+                [None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else yn(x)
+                ),
+                key="lung_allergy"
+            )
 
-            ALLERGY = st.selectbox("Allergy",[1,0],format_func=yn)
+            ALCOHOL_CONSUMING = st.selectbox(
+                "Alcohol Consuming",
+                [None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else yn(x)
+                ),
+                key="lung_alcohol"
+            )
 
-            ALCOHOL_CONSUMING = st.selectbox("Alcohol Consuming",[1,0],format_func=yn)
+            SHORTNESS_OF_BREATH = st.selectbox(
+                "Shortness of Breath",
+                [None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else yn(x)
+                ),
+                key="lung_breath"
+            )
 
-            SHORTNESS_OF_BREATH = st.selectbox("Shortness of Breath",[1,0],format_func=yn)
-
-            CHEST_PAIN = st.selectbox("Chest Pain",[1,0],format_func=yn)
+            CHEST_PAIN = st.selectbox(
+                "Chest Pain",
+                [None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else yn(x)
+                ),
+                key="lung_chest"
+            )
 
         with col2:
+            AGE = st.number_input(
+                "Age",
+                min_value=18,
+                max_value=100,
+                value=None,
+                placeholder="Enter age",
+                step=1,
+                key="lung_age"
+            )
 
-            AGE = st.number_input("Age",18,100,45)
+            YELLOW_FINGERS = st.selectbox(
+                "Yellow Fingers",
+                [None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else yn(x)
+                ),
+                key="lung_yellow"
+            )
 
-            YELLOW_FINGERS = st.selectbox("Yellow Fingers",[1,0],format_func=yn)
+            PEER_PRESSURE = st.selectbox(
+                "Peer Pressure",
+                [None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else yn(x)
+                ),
+                key="lung_peer"
+            )
 
-            PEER_PRESSURE = st.selectbox("Peer Pressure",[1,0],format_func=yn)
+            FATIGUE = st.selectbox(
+                "Fatigue",
+                [None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else yn(x)
+                ),
+                key="lung_fatigue"
+            )
 
-            FATIGUE = st.selectbox("Fatigue",[1,0],format_func=yn)
+            WHEEZING = st.selectbox(
+                "Wheezing",
+                [None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else yn(x)
+                ),
+                key="lung_wheezing"
+            )
 
-            WHEEZING = st.selectbox("Wheezing",[1,0],format_func=yn)
+            COUGHING = st.selectbox(
+                "Coughing",
+                [None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else yn(x)
+                ),
+                key="lung_coughing"
+            )
 
-            COUGHING = st.selectbox("Coughing",[1,0],format_func=yn)
+            SWALLOWING_DIFFICULTY = st.selectbox(
+                "Swallowing Difficulty",
+                [None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else yn(x)
+                ),
+                key="lung_swallowing"
+            )
 
-            SWALLOWING_DIFFICULTY = st.selectbox("Swallowing Difficulty",[1,0],format_func=yn)
+        st.markdown("<br>", unsafe_allow_html=True)
 
         submitted = st.form_submit_button(
             "Predict Lung Cancer Risk",
@@ -522,8 +857,6 @@ elif st.session_state.current_page == "Lung Cancer":
         )
 
     if submitted:
-
-        # Input dictionary
         values = {
             "GENDER": GENDER,
             "AGE": AGE,
@@ -542,46 +875,46 @@ elif st.session_state.current_page == "Lung Cancer":
             "CHEST PAIN": CHEST_PAIN,
         }
 
-        model = models["lung_cancer"]
+        if validate_required_inputs(values):
+            model = models["lung_cancer"]
 
-        # Model ke original feature names
-        expected = list(model.feature_names_in_)
+            expected = list(model.feature_names_in_)
 
-        # Agar model me trailing spaces hain to handle karega
-        fixed = {}
+            fixed = {}
 
-        for col in expected:
-            key = col.strip()
-            for k in values:
-                if k.strip() == key:
-                    fixed[col] = values[k]
-                    break
+            for col in expected:
+                key = col.strip()
 
-        input_data = pd.DataFrame([fixed])
+                for k in values:
+                    if k.strip() == key:
+                        fixed[col] = values[k]
+                        break
 
-        print("Model Features :", expected)
-        print("Input Features :", input_data.columns.tolist())
+            input_data = pd.DataFrame([fixed])
 
-        prediction = model.predict(input_data)
+            print("Model Features :", expected)
+            print("Input Features :", input_data.columns.tolist())
 
-        if prediction[0] == 1:
-            display_result(
-                True,
-                "The model indicates the presence of Lung Cancer.",
-                ""
-            )
-        else:
-            display_result(
-                False,
-                "",
-                "The model indicates no presence of Lung Cancer."
-            )
-# ------------------------------------------
+            prediction = model.predict(input_data)
+
+            if prediction[0] == 1:
+                display_result(
+                    True,
+                    "The model indicates the presence of Lung Cancer.",
+                    ""
+                )
+            else:
+                display_result(
+                    False,
+                    "",
+                    "The model indicates no presence of Lung Cancer."
+                )
+
 # THYROID PAGE
 # ------------------------------------------
 elif st.session_state.current_page == "Thyroid":
     st.button("← Back to Home", on_click=navigate, args=('Home',))
-    
+
     st.markdown("""
         <div class="page-title-box">
             <h2>🦋 Thyroid Disease Prediction</h2>
@@ -591,31 +924,117 @@ elif st.session_state.current_page == "Thyroid":
 
     with st.form("thyroid_form"):
         col1, col2 = st.columns(2)
+
         with col1:
-            age = st.number_input('Age', value=35, step=1, key="t_age")
-            on_thyroxine = st.selectbox('On Thyroxine', options=[1, 0], format_func=lambda x: "Yes (1)" if x == 1 else "No (0)", key="t_onthy")
-            t3_measured = st.selectbox('T3 Measured', options=[1, 0], format_func=lambda x: "Yes (1)" if x == 1 else "No (0)", key="t_t3m")
-            tt4 = st.number_input('TT4 Level', value=100.0, format="%f", key="t_tt4")
+            age = st.number_input(
+                'Age',
+                value=None,
+                placeholder='Enter age',
+                step=1,
+                key="t_age"
+            )
+
+            on_thyroxine = st.selectbox(
+                'On Thyroxine',
+                options=[None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else "Yes (1)"
+                    if x == 1
+                    else "No (0)"
+                ),
+                key="t_onthy"
+            )
+
+            t3_measured = st.selectbox(
+                'T3 Measured',
+                options=[None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else "Yes (1)"
+                    if x == 1
+                    else "No (0)"
+                ),
+                key="t_t3m"
+            )
+
+            tt4 = st.number_input(
+                'TT4 Level',
+                value=None,
+                placeholder='Enter TT4 level',
+                format="%f",
+                key="t_tt4"
+            )
+
         with col2:
-            sex = st.selectbox('Sex', options=[1, 0], format_func=lambda x: "Male (1)" if x == 1 else "Female (0)", key="t_sex")
-            tsh = st.number_input('TSH Level', value=1.5, format="%f", key="t_tsh")
-            t3 = st.number_input('T3 Level', value=2.0, format="%f", key="t_t3")
+            sex = st.selectbox(
+                'Sex',
+                options=[None, 1, 0],
+                format_func=lambda x: (
+                    "Select an option"
+                    if x is None
+                    else "Male (1)"
+                    if x == 1
+                    else "Female (0)"
+                ),
+                key="t_sex"
+            )
+
+            tsh = st.number_input(
+                'TSH Level',
+                value=None,
+                placeholder='Enter TSH level',
+                format="%f",
+                key="t_tsh"
+            )
+
+            t3 = st.number_input(
+                'T3 Level',
+                value=None,
+                placeholder='Enter T3 level',
+                format="%f",
+                key="t_t3"
+            )
 
         st.markdown("<br>", unsafe_allow_html=True)
-        submitted = st.form_submit_button("Predict Thyroid Risk", type="primary", use_container_width=True)
-        
+
+        submitted = st.form_submit_button(
+            "Predict Thyroid Risk",
+            type="primary",
+            use_container_width=True
+        )
+
     if submitted:
-        input_data = pd.DataFrame(
-    [[age, sex, on_thyroxine, tsh, t3_measured, t3, tt4]],
-    columns=[
-        'age',
-        'sex',
-        'on thyroxine',
-        'TSH',
-        'T3 measured',
-        'T3',
-        'TT4'
-    ]
-)
-        prediction = models['thyroid'].predict(input_data)
-        display_result(prediction[0] == 1, "The model indicates the presence of Thyroid disease.", "The model indicates no presence of Thyroid disease.")
+        values = {
+            "Age": age,
+            "Sex": sex,
+            "On Thyroxine": on_thyroxine,
+            "TSH": tsh,
+            "T3 Measured": t3_measured,
+            "T3": t3,
+            "TT4": tt4,
+        }
+
+        if validate_required_inputs(values):
+            input_data = pd.DataFrame(
+                [[age, sex, on_thyroxine, tsh, t3_measured, t3, tt4]],
+                columns=[
+                    'age',
+                    'sex',
+                    'on thyroxine',
+                    'TSH',
+                    'T3 measured',
+                    'T3',
+                    'TT4'
+                ]
+            )
+
+            prediction = models['thyroid'].predict(input_data)
+
+            display_result(
+                prediction[0] == 1,
+                "The model indicates the presence of Thyroid disease.",
+                "The model indicates no presence of Thyroid disease."
+            )
